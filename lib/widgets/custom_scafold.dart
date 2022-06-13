@@ -1,39 +1,27 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class CustomScafold extends StatelessWidget {
+class CustomScaffold extends StatelessWidget {
   final Widget body;
-  const CustomScafold({
-    Key? key,
-    required this.body,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            body,
-            _buildShortAppBar(context),
-          ],
-        ),
-      ),
-    );
-  }
+  CustomScaffold({required this.body});
 
-  Card _buildShortAppBar(BuildContext context) {
+  Widget _buildShortAppBar(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(0.0),
+      margin: const EdgeInsets.all(0),
       shape: const BeveledRectangleBorder(
         borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(16.0)
-        )
+          bottomRight: Radius.circular(16.0),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: defaultTargetPlatform == TargetPlatform.iOS
+                ? const Icon(CupertinoIcons.back)
+                : const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -46,6 +34,20 @@ class CustomScafold extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            body,
+            _buildShortAppBar(context),
+          ],
+        ),
       ),
     );
   }
